@@ -1,0 +1,8 @@
+{
+  "name": "learn-prisma",
+  "version": "1.0.0",
+  "description": "Exploring Prisma as an ORM for Node Projects",
+  "repository": "https://github.com/itSubeDibesh/LearnPrisma",
+  "author": "Dibesh Raj Subedi",
+  "license": "MIT"
+}

@@ -37,3 +37,28 @@ After completely adding up dependencies lets first create a database that can be
 3. Use `SHOW Databases;` command to verify the database.
 
 For security reasons its better to create a new user and assign a basic privileges like `CREATE,READ,UPDATE,DELETE` but for now we wont be doing that.
+
+## Creating Prisma Schema
+
+After creating database we need to create a schema for prisma to use. Prisma schema is a file that defines the database schema and the models that can be used to query the database. Run `yarn prisma init --datasource-provider mysql` command to initialize prisma. This will create a `prisma` directory on root directory and a `schema.prisma` file inside it.
+
+```prisma
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+```
+
+This is the default schema that is created by prisma. We will be modifying this schema to define our database schema and models.
+
+You will also see a `.env` file at root of the directory that contains the database url. This is the url that prisma will use to connect to the database. You can change the database url to your database url.
+
+```env
+DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
+```
+
+Replace the database url with your database url.

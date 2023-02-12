@@ -372,3 +372,62 @@ export class UserTable{
 ...
 }
 ```
+
+### Using User Handler
+
+Now lets use the user handler in our `index.ts` file. Add the following code to `index.ts` file.
+
+```ts
+...
+import { UserTable } from "./Tables/UserTable";
+...
+const executor = async () => {
+ const UsersList = await (await UserTable.getAll()).users;
+ if (UsersList && UsersList.length === 0)
+  console.log(
+   "APP: Creating a new user",
+   // Creating a new user
+   await UserTable.create({
+    email: "test@Test.com",
+    password: "password",
+    phoneNumber: "+977-9000000012",
+   })
+  );
+ const UpdatedList = await (await UserTable.getAll()).users;
+ console.log("APP: Users List", UpdatedList);
+ if (UpdatedList && UpdatedList.length !== 0) {
+  console.log(
+   "APP: Updating the user",
+   // Updating the user
+   await UserTable.update({
+    ...UpdatedList[0],
+    password: "p@ssw0rd",
+    isSuspended: true,
+   })
+  );
+ }
+ if (UpdatedList)
+  console.log(
+   "APP: Selecting First User From Db",
+   // Selecting the user
+   await UserTable.getById(UpdatedList[0].id)
+  );
+ if (UpdatedList)
+  console.log(
+   "APP: Deleting First User From Db",
+   // Deleting the user
+   await UserTable.delete(UpdatedList[0])
+  );
+ // Getting the final list
+ const FinalList = await (await UserTable.getAll(true)).users;
+ console.log("APP: Final Users List", FinalList);
+};
+
+...
+```
+
+Similarly you can create other tables and use them in your application.
+
+## Conclusion
+
+In a nutshell we have learned how to setup, create and use prisma and prisma client in our application. For further reading you can check out the [Prisma Documentation](https://www.prisma.io/docs/). If you have any questions or suggestions please feel free to comment below and hope you enjoyed exploring Prisma with me.

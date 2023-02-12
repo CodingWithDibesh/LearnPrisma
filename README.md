@@ -211,3 +211,164 @@ export const handelPrismaError = (
 ```
 
 Here we are handling all the prisma errors and returning a custom error message. You can customize the error message as per your requirement.
+
+### Creating User Handler
+
+After setting up the `index.ts` file lets create a `UserTable.ts` file that will contain all the functions related to user. Create a directory named `Tabes` on root directory and create a `UserTable.ts` file inside it. Add the following code to `UserTable.ts` file.
+
+```ts
+// Path: Tables\UserTable.ts
+
+export class UserTable {
+ static create = async () => {};
+ static update = async () => {};
+ static delete = async () => {};
+ static getAll = async () => {};
+ static getById = async () => {};
+}
+
+```
+
+#### Create User
+
+Now lets import prisma client and implement the create function first. Our create function will take only few arguments and will return the created user. Add the following code to `UserTable.ts` file.
+
+```ts
+// Path: Tables\UserTable.ts
+
+import { PrismaClient } from "@prisma/client";
+import { handelPrismaError } from "./PrismaError";
+const prisma = new PrismaClient();
+
+interface ICreateUser {
+ email: string;
+ password: string;
+ phoneNumber: string;
+}
+
+export class UserTable {
+ static create = async (newUser: ICreateUser) => {
+  try {
+   const user = await prisma.user.create({
+    data: {
+     ...newUser,
+    },
+   });
+   return { user };
+  } catch (e: any) {
+   return { error: handelPrismaError(e) };
+  }
+ };
+....
+}
+```
+
+#### Update User
+
+Lets implement update functions. Add the following code to `UserTable.ts` file.
+
+```ts
+import { PrismaClient,User } from "@prisma/client";
+...
+
+export class UserTable{
+  ...
+  static update = async (updateUser: User) => {
+        try {
+            const user = await prisma.user.update({
+                where: {
+                    id: updateUser.id,
+                },
+                data: {
+                    ...updateUser,
+                },
+            });
+            return { user };
+        }
+        catch (e: any) {
+            return { error: handelPrismaError(e) };
+        }
+    };
+    ...
+}
+```
+
+#### Delete User
+
+Lets implement delete functions. Add the following code to `UserTable.ts` file.
+
+```ts
+
+...
+
+export class UserTable{
+  ...
+ static delete = async (user: User) => {
+  try {
+   const deletedUser = await prisma.user.delete({
+    where: {
+     id: user.id,
+    },
+   });
+   return { deletedUser };
+  } catch (e: any) {
+   return { error: handelPrismaError(e) };
+  }
+ };
+    ...
+}
+```
+
+#### Get All Users
+
+Lets implement get all users functions. Add the following code to `UserTable.ts` file.
+
+```ts
+...
+
+export class UserTable{
+  ...
+ static getAll = async (includeProfile: boolean = false) => {
+  try {
+   const users = await prisma.user.findMany({
+    include: {
+     profile: includeProfile,
+    },
+   });
+   return { users };
+  } catch (e: any) {
+   return { error: handelPrismaError(e) };
+  }
+ };
+...
+}
+```
+
+#### Get User By Id
+
+Finally lets implement get user by id functions. Add the following code to `UserTable.ts` file.
+
+```ts
+...
+
+export class UserTable{
+  ...
+
+    static getById = async (id: string,includeProfile: boolean = false) => {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id,
+                },
+                include: {
+                    profile: includeProfile,
+                },
+            });
+            return { user };
+        }catch (e: any) {
+            return { error: handelPrismaError(e) };
+        }
+    };
+...
+}
+```

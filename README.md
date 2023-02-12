@@ -1,5 +1,38 @@
 # Learn Prisma
 
+![Prisma Image](./Prisma.png)
+
+![Youtube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white) ![VSCode](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+
+Table of Contents
+
+- [Learn Prisma](#learn-prisma)
+  - [Introduction](#introduction)
+  - [Setup Process](#setup-process)
+    - [1. Installing Dev Dependencies](#1-installing-dev-dependencies)
+    - [2. Initializing TypeScript](#2-initializing-typescript)
+    - [3. Adding Prisma](#3-adding-prisma)
+    - [4. Adding Prisma Client](#4-adding-prisma-client)
+    - [5. Creating Database](#5-creating-database)
+  - [Creating Prisma Schema](#creating-prisma-schema)
+  - [Creating Models](#creating-models)
+  - [Generating Prisma Client](#generating-prisma-client)
+  - [Using Prisma Client](#using-prisma-client)
+    - [Setting up index.ts file](#setting-up-indexts-file)
+    - [Creating common Prisma Error Handler](#creating-common-prisma-error-handler)
+    - [Creating User Handler](#creating-user-handler)
+      - [Create User](#create-user)
+      - [Update User](#update-user)
+      - [Delete User](#delete-user)
+      - [Get All Users](#get-all-users)
+      - [Get User By Id](#get-user-by-id)
+    - [Using User Handler](#using-user-handler)
+  - [Conclusion](#conclusion)
+
+## Introduction
+
+ Prisma abstracts the underlying database and provides a simple, type-safe and expressive API for working with data. By using Prisma, you can write less code, reduce the risk of bugs, and improve the performance of your application, making it a good choice for your data management needs.
+
 📓 Exploring Prisma as an ORM for Node Projects
 
 ## Setup Process

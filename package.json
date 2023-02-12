@@ -5,6 +5,9 @@
   "repository": "https://github.com/itSubeDibesh/LearnPrisma",
   "author": "Dibesh Raj Subedi",
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node index.ts"
+  },
   "devDependencies": {
     "@types/node": "^18.11.19",
     "prisma": "^4.9.0",

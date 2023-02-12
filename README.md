@@ -138,3 +138,76 @@ Done in 4.59s.
 ```
 
 ## Using Prisma Client
+
+Before we start using prisma client lets create a `index.ts` file on root directory so that we can invoke all the required functions from there. We are trying to mimic a function call but since we are not creating a rest api we will be using `console.log` to print the output.
+
+### Setting up index.ts file
+
+Lets create a `index.ts` file on root directory and add the following code.
+
+```ts
+// Path: index.ts
+console.log("APP: Application Started");
+
+const executor = async () => {
+    
+}
+
+executor()
+.then()
+.catch()
+.finally(()=>{
+    console.log("APP: Application Ended");
+})
+```
+
+When you run `yarn ts-node index.ts` command you will see the following output.
+
+```bash
+APP: Application Started
+APP: Application Ended
+Done in 3.92s.
+```
+
+Lets create a dev command on `package.json` file to run the application. Add the following code to `package.json` file.
+
+```json
+{
+  "scripts": {
+    "dev": "ts-node index.ts"
+  }
+}
+```
+
+Now you can run `yarn dev` command to run the application.
+
+### Creating common Prisma Error Handler
+
+Lets also create a common error handler that will be used to handle all the prisma errors. Create a `Tables` directory and inside inside that directory, create a `PrismaError.ts` file and add the following code.
+
+```ts
+// Path: Tables\PrismaError.ts
+
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+
+export const handelPrismaError = (
+ error: PrismaClientKnownRequestError
+): string => {
+ switch (error.code) {
+  case "P2000":
+   return `The ${error.meta?.column_name} is too long. `;
+  case "P2001":
+   return `No records found for the ${error.meta?.target}`;
+  case "P2002":
+   return `Unique constraint failed on the ${error.meta?.target}`;
+  case "P2003":
+   return `Foreign key constraint failed on the ${error.meta?.target}`;
+  case "P2004":
+   return `The ${error.meta?.target} already exists`;
+  default:
+   return "Something went wrong";
+ }
+};
+```
+
+Here we are handling all the prisma errors and returning a custom error message. You can customize the error message as per your requirement.

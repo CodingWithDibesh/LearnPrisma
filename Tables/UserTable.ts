@@ -1,6 +1,6 @@
 // Path: Tables\UserTable.ts
 
-import { PrismaClient, User, Profile } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { handelPrismaError } from "./PrismaError";
 const prisma = new PrismaClient();
 

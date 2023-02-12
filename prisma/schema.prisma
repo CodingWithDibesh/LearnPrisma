@@ -9,3 +9,50 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          String   @id @default(uuid()) // Primary Key and Default Value as UUID
+  email       String   @unique // Unique Constraint
+  password    String   @db.VarChar(60) // String with length 60 use bcrypt to hash password and store it
+  phoneNumber String   @db.VarChar(15) // String with length 15
+  isSuspended Boolean  @default(false) // Boolean with default value false
+  isDeleted   Boolean  @default(false) // Boolean with default value false
+  profile     Profile? // One To One Relation
+
+  createdAt DateTime @default(now()) // DateTime with default value as now
+  updatedAt DateTime @updatedAt // DateTime that will be updated on every update
+}
+
+model Profile {
+  id        String  @id @default(uuid()) // Primary Key and Default Value as UUID
+  userName  String  @unique @db.VarChar(7) // Allowed Characters -> A-Z,a-z,0-9 -> Total Possible Combination (26+26+9)^7
+  isOnline  Boolean @default(false) // Boolean with default value false
+  followers BigInt  @default(0) // BigInt with default value 0
+
+  credential User   @relation(fields: [userId], references: [id], onDelete: Cascade) // On delete cascade
+  userId     String @unique // One To One Relation
+
+  tweets Tweet[] // One To Many Relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tweet {
+  id          String          @id @default(uuid()) // Primary Key and Default Value as UUID
+  description String
+  access      AccessModifier? @default(PUBLIC) // Enum with default value PUBLIC
+
+  Profile   Profile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Access Modifier Enum
+enum AccessModifier {
+  PUBLIC
+  PRIVATE
+  SELF
+}

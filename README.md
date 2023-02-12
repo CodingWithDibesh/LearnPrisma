@@ -62,3 +62,79 @@ DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
 ```
 
 Replace the database url with your database url.
+
+## Creating Models
+
+Now that we have created a database and a schema we can start defining our models. Open the `schema.prisma` file and add the following code.
+
+```prisma
+model User {
+  id          String   @id @default(uuid()) // Primary Key and Default Value as UUID
+  email       String   @unique // Unique Constraint
+  password    String   @db.VarChar(60) // String with length 60 use bcrypt to hash password and store it
+  phoneNumber String   @db.VarChar(15) // String with length 15
+  isSuspended Boolean  @default(false) // Boolean with default value false
+  isDeleted   Boolean  @default(false) // Boolean with default value false
+  profile     Profile? // One To One Relation
+
+  createdAt DateTime @default(now()) // DateTime with default value as now
+  updatedAt DateTime @updatedAt // DateTime that will be updated on every update
+}
+
+model Profile {
+  id        String  @id @default(uuid()) // Primary Key and Default Value as UUID
+  userName  String  @unique @db.VarChar(7) // Allowed Characters -> A-Z,a-z,0-9 -> Total Possible Combination (26+26+9)^7
+  isOnline  Boolean @default(false) // Boolean with default value false
+  followers BigInt  @default(0) // BigInt with default value 0
+
+  credential User   @relation(fields: [userId], references: [id], onDelete: Cascade) // On delete cascade
+  userId     String @unique // One To One Relation
+
+  tweets Tweet[] // One To Many Relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tweet {
+  id          String          @id @default(uuid()) // Primary Key and Default Value as UUID
+  description String
+  access      AccessModifier? @default(PUBLIC) // Enum with default value PUBLIC
+
+  Profile   Profile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId String? 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Access Modifier Enum
+enum AccessModifier {
+  PUBLIC
+  PRIVATE
+  SELF
+}
+
+```
+
+After defining the models we need to migrate the database. Run `yarn prisma migrate dev` command to migrate the database. This will create a `migrations` directory that contains the migration files. You can also use `yarn prisma migrate dev --name [migrationName]` to name the migration.
+
+## Generating Prisma Client
+
+After defining the models we need to generate prisma client. Prisma client is the library that is used to query the database. Run `yarn prisma generate` command to generate prisma client. This will create a `node_modules/@prisma/client` directory that contains the prisma client library.
+
+```bash
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+✔ Generated Prisma Client (4.9.0 | library) to .\node_modules\@prisma\client in 293ms
+You can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
+
+
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+Done in 4.59s.
+```
+
+## Using Prisma Client

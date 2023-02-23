@@ -223,7 +223,7 @@ Lets also create a common error handler that will be used to handle all the pris
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
-export const handelPrismaError = (
+export const handlePrismaError = (
  error: PrismaClientKnownRequestError
 ): string => {
  switch (error.code) {
@@ -270,7 +270,7 @@ Now lets import prisma client and implement the create function first. Our creat
 // Path: Tables\UserTable.ts
 
 import { PrismaClient } from "@prisma/client";
-import { handelPrismaError } from "./PrismaError";
+import { handlePrismaError } from "./PrismaError";
 const prisma = new PrismaClient();
 
 interface ICreateUser {
@@ -289,7 +289,7 @@ export class UserTable {
    });
    return { user };
   } catch (e: any) {
-   return { error: handelPrismaError(e) };
+   return { error: handlePrismaError(e) };
   }
  };
 ....
@@ -319,7 +319,7 @@ export class UserTable{
             return { user };
         }
         catch (e: any) {
-            return { error: handelPrismaError(e) };
+            return { error: handlePrismaError(e) };
         }
     };
     ...
@@ -345,7 +345,7 @@ export class UserTable{
    });
    return { deletedUser };
   } catch (e: any) {
-   return { error: handelPrismaError(e) };
+   return { error: handlePrismaError(e) };
   }
  };
     ...
@@ -370,7 +370,7 @@ export class UserTable{
    });
    return { users };
   } catch (e: any) {
-   return { error: handelPrismaError(e) };
+   return { error: handlePrismaError(e) };
   }
  };
 ...
@@ -399,7 +399,7 @@ export class UserTable{
             });
             return { user };
         }catch (e: any) {
-            return { error: handelPrismaError(e) };
+            return { error: handlePrismaError(e) };
         }
     };
 ...

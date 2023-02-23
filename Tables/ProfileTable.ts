@@ -1,7 +1,7 @@
 // Path: Tables\ProfileTable.ts
 
 import { PrismaClient, Profile } from "@prisma/client";
-import { handelPrismaError } from "./PrismaError";
+import { handlePrismaError } from "./PrismaError";
 const prisma = new PrismaClient();
 
 interface ICreateProfile {
@@ -19,7 +19,7 @@ export class ProfileTable {
 			});
 			return { profile };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static update = async (updateProfile: Profile) => {
@@ -34,7 +34,7 @@ export class ProfileTable {
 			});
 			return { profile };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static delete = async (profile: Profile) => {
@@ -46,7 +46,7 @@ export class ProfileTable {
 			});
 			return { deletedProfile };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static getAll = async (includeTweets: boolean = false) => {
@@ -58,7 +58,7 @@ export class ProfileTable {
 			});
 			return { profile };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static getById = async (id: string, includeTweets: boolean = false) => {
@@ -73,7 +73,7 @@ export class ProfileTable {
 			});
 			return { profile };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 }

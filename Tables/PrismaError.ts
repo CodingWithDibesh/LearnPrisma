@@ -2,7 +2,7 @@
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
-export const handelPrismaError = (
+export const handlePrismaError = (
 	error: PrismaClientKnownRequestError
 ): string => {
 	switch (error.code) {

@@ -1,7 +1,7 @@
 // Path: Tables\TweetTable.ts
 
 import { PrismaClient, Tweet, AccessModifier } from "@prisma/client";
-import { handelPrismaError } from "./PrismaError";
+import { handlePrismaError } from "./PrismaError";
 const prisma = new PrismaClient();
 
 interface ICreateTweet {
@@ -20,7 +20,7 @@ export class TweetTable {
 			});
 			return { tweet };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static update = async (updateTweet: Tweet) => {
@@ -35,7 +35,7 @@ export class TweetTable {
 			});
 			return { tweet };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static delete = async (tweet: Tweet) => {
@@ -47,7 +47,7 @@ export class TweetTable {
 			});
 			return { deletedProfile };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static getAll = async (includeProfile: boolean = false) => {
@@ -59,7 +59,7 @@ export class TweetTable {
 			});
 			return { tweet };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 	static getById = async (id: string, includeProfile: boolean = false) => {
@@ -74,7 +74,7 @@ export class TweetTable {
 			});
 			return { tweet };
 		} catch (e: any) {
-			return { error: handelPrismaError(e) };
+			return { error: handlePrismaError(e) };
 		}
 	};
 }
